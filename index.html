@@ -101,7 +101,7 @@
 
   <!-- Background Music -->
   <audio autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="heer_jthj.mp3" type="audio/mpeg">
   </audio>
 
   <div class="card">
@@ -129,7 +129,20 @@
 
   <script>
     function sayYes() {
-      document.getElementById("love").style.display = "block";
+  document.getElementById("love").style.display = "block";
+  const music = document.getElementById("bgm");
+  music.volume = 0;
+  music.play();
+
+  let vol = 0;
+  const fade = setInterval(() => {
+    if (vol < 0.8) {
+      vol += 0.05;
+      music.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
     }
 
     function moveNo() {
