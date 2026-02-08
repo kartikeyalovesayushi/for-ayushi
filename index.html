@@ -116,7 +116,7 @@
     <h2>Will you be my Valentine? 🌸</h2>
 
     <div class="buttons">
-      <button id="yesBtn" onclick="sayYes()">Yes 💕</button>
+      <button id="yesBtn" onclick="playLove()">Yes 💕</button>
       <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
     </div>
 
@@ -128,21 +128,12 @@
   </div>
 
   <script>
-    function sayYes() {
-  document.getElementById("love").style.display = "block";
+    function playLove() {
   const music = document.getElementById("bgm");
-  music.volume = 0;
+  music.volume = 0.8;
   music.play();
 
-  let vol = 0;
-  const fade = setInterval(() => {
-    if (vol < 0.8) {
-      vol += 0.05;
-      music.volume = vol;
-    } else {
-      clearInterval(fade);
-    }
-  }, 200);
+  document.getElementById("love").style.display = "block";
     }
 
     function moveNo() {
