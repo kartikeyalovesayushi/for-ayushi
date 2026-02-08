@@ -18,6 +18,7 @@ body {
   color: #fff;
 }
 
+/* Card */
 .card {
   background: rgba(255,255,255,0.2);
   padding: 25px;
@@ -64,7 +65,6 @@ button {
   margin-top: 15px;
 }
 
-/* Each photo card */
 .photo {
   width: 120px;
   flex-shrink: 0;
@@ -79,6 +79,7 @@ button {
   object-fit: cover;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  cursor: pointer;
 }
 
 .caption {
@@ -86,25 +87,72 @@ button {
   margin-top: 5px;
 }
 
-/* Fade-in animation */
 @keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Hearts */
 .heart {
   position: absolute;
-  bottom: -20px;
-  font-size: 20px;
-  animation: floatUp 6s linear infinite;
+  font-size: 22px;
+  animation: floatUp 5s linear forwards;
 }
 
 @keyframes floatUp {
   from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-110vh); opacity: 0; }
+  to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Fullscreen photo */
+#fullscreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#fullscreen img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 20px;
+}
+
+/* Final message */
+#finalMessage {
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+/* Surprise button */
+#surpriseBtn {
+  margin-top: 15px;
+  background: #fff;
+  color: #ff4d6d;
+  display: none;
+}
+
+/* Surprise popup */
+#surpriseBox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#surpriseBox div {
+  background: #ff4d6d;
+  padding: 25px;
+  border-radius: 20px;
+  max-width: 300px;
+  text-align: center;
 }
 </style>
 </head>
@@ -130,7 +178,6 @@ button {
     <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
   </div>
 
-  <!-- Appears AFTER Yes -->
   <div id="afterYes" class="hidden">
     <p style="margin-top:15px;">
       I knew it 🥹💖 Happy Propose Day 🌸
@@ -138,72 +185,134 @@ button {
 
     <div class="gallery" id="gallery">
       <div class="photo">
-        <img src="pic1.jpg">
+        <img src="pic1.jpg" onclick="openFull(this)">
         <div class="caption">My favorite smile 💕</div>
       </div>
-
       <div class="photo">
-        <img src="pic2.jpg">
+        <img src="pic2.jpeg" onclick="openFull(this)">
         <div class="caption">This moment = happiness 🌸</div>
       </div>
-
       <div class="photo">
-        <img src="pic3.jpg">
+        <img src="pic3.jpg" onclick="openFull(this)">
         <div class="caption">Us, always 💖</div>
       </div>
     </div>
+
+    <div id="finalMessage" class="hidden"></div>
+    <button id="surpriseBtn" onclick="showSurprise()">One last thing 💝</button>
+  </div>
+</div>
+
+<div id="fullscreen" onclick="closeFull()">
+  <img id="fullImg">
+</div>
+
+<div id="surpriseBox" onclick="closeSurprise()">
+  <div>
+    <h2>Ayushi 💖</h2>
+    <p>
+      I don’t know what the future holds,<br>
+      but I know I want it with you.<br><br>
+      Thank you for being you 🌸
+    </p>
   </div>
 </div>
 
 <script>
+const finalText =
+"Ayushi, I choose you — today and always 💖\nHappy Valentine’s 🌸";
+
 function sayYes() {
   document.getElementById("afterYes").style.display = "block";
 
-  // play music
   const music = document.getElementById("bgm");
   music.volume = 0.8;
   music.play();
 
-  // stagger fade-in
-  const photos = document.querySelectorAll(".photo");
-  photos.forEach((photo, i) => {
-    photo.style.animationDelay = `${i * 0.5}s`;
+  heartBurst();
+
+  document.querySelectorAll(".photo").forEach((p, i) => {
+    p.style.animationDelay = `${i * 0.5}s`;
   });
 
-  // start auto swipe
   autoScroll();
+  setTimeout(startTyping, 9000);
+}
+
+function startTyping() {
+  const el = document.getElementById("finalMessage");
+  el.classList.remove("hidden");
+  el.innerHTML = "";
+
+  let i = 0;
+  const speed = 60;
+
+  const typer = setInterval(() => {
+    el.innerHTML += finalText.charAt(i);
+    i++;
+    if (i >= finalText.length) {
+      clearInterval(typer);
+      heartRain();
+      document.getElementById("surpriseBtn").style.display = "inline-block";
+    }
+  }, speed);
 }
 
 function moveNo() {
-  const noBtn = document.getElementById("noBtn");
-  const x = Math.random() * 200 - 100;
-  const y = Math.random() * 200 - 100;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  const b = document.getElementById("noBtn");
+  b.style.transform =
+    `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
 }
 
-// Auto swipe gallery
 function autoScroll() {
-  const gallery = document.getElementById("gallery");
-  let scrollAmount = 0;
-
+  const g = document.getElementById("gallery");
+  let x = 0;
   setInterval(() => {
-    scrollAmount += 130;
-    if (scrollAmount >= gallery.scrollWidth - gallery.clientWidth) {
-      scrollAmount = 0;
-    }
-    gallery.scrollTo({ left: scrollAmount, behavior: "smooth" });
+    x += 130;
+    if (x >= g.scrollWidth - g.clientWidth) x = 0;
+    g.scrollTo({ left: x, behavior: "smooth" });
   }, 2200);
 }
 
-// Floating hearts
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerText = "💖";
-  heart.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 400);
+/* Hearts */
+function heartBurst() {
+  for (let i = 0; i < 20; i++) {
+    createHeart(50 + Math.random()*20 - 10, "40vh");
+  }
+}
+
+function heartRain() {
+  setInterval(() => {
+    createHeart(Math.random()*100, "-10px");
+  }, 300);
+}
+
+function createHeart(x, y) {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💖";
+  h.style.left = x + "vw";
+  h.style.top = y;
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 5000);
+}
+
+/* Fullscreen */
+function openFull(img) {
+  document.getElementById("fullImg").src = img.src;
+  document.getElementById("fullscreen").style.display = "flex";
+}
+function closeFull() {
+  document.getElementById("fullscreen").style.display = "none";
+}
+
+/* Surprise */
+function showSurprise() {
+  document.getElementById("surpriseBox").style.display = "flex";
+}
+function closeSurprise() {
+  document.getElementById("surpriseBox").style.display = "none";
+}
 </script>
 
 </body>
