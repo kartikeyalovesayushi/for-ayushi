@@ -45,14 +45,14 @@
 
     .buttons {
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      position: relative;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
     }
 
     button {
       border: none;
-      padding: 12px 22px;
+      padding: 12px 24px;
       font-size: 18px;
       border-radius: 30px;
       cursor: pointer;
@@ -67,6 +67,12 @@
       background: #fff;
       color: #ff4d6d;
       position: relative;
+    }
+
+    #musicBtn {
+      background: #ffd6e0;
+      color: #ff4d6d;
+      font-size: 16px;
     }
 
     .hidden {
@@ -100,40 +106,43 @@
 <body>
 
   <!-- Background Music -->
-  <audio autoplay loop>
-    <source src="heer_jthj.mp3" type="audio/mpeg">
+  <audio id="bgm" loop>
+    <source src="song.mp3" type="audio/mpeg">
   </audio>
 
   <div class="card">
     <h1>Ayushi 💖</h1>
+
     <p>
-      I don’t know how you do it,  
-      but you make everything feel lighter and happier.
+      Somehow, you make everything feel happier and easier.  
+      I smile more because of you… and I really love that.
     </p>
-    <p>
-      I smile more because of you… and honestly, I love that.
-    </p>
+
     <h2>Will you be my Valentine? 🌸</h2>
 
     <div class="buttons">
-      <button id="yesBtn" onclick="playLove()">Yes 💕</button>
+      <button id="musicBtn" onclick="playMusic()">Play Music 🎵</button>
+
+      <button id="yesBtn" onclick="sayYes()">Yes 💕</button>
       <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
     </div>
 
     <div id="love" class="hidden">
       I knew it 🥹💖<br/>
       Happy Propose Day, Ayushi 🌸<br/>
-      You make my heart really, really happy 💕
+      You make my heart really happy 💕
     </div>
   </div>
 
   <script>
-    function playLove() {
-  const music = document.getElementById("bgm");
-  music.volume = 0.8;
-  music.play();
+    function playMusic() {
+      const music = document.getElementById("bgm");
+      music.volume = 0.8;
+      music.play();
+    }
 
-  document.getElementById("love").style.display = "block";
+    function sayYes() {
+      document.getElementById("love").style.display = "block";
     }
 
     function moveNo() {
@@ -143,7 +152,7 @@
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     }
 
-    // Floating hearts generator
+    // Floating hearts
     setInterval(() => {
       const heart = document.createElement("div");
       heart.className = "heart";
@@ -152,9 +161,7 @@
       heart.style.fontSize = Math.random() * 20 + 15 + "px";
       document.body.appendChild(heart);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
+      setTimeout(() => heart.remove(), 6000);
     }, 400);
   </script>
 
