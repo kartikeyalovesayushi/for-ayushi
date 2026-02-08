@@ -1,169 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For Ayushi 💖</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For Ayushi 💖</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
 
-    .card {
-      background: rgba(255,255,255,0.2);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      max-width: 360px;
-      z-index: 2;
-    }
+.card {
+  background: rgba(255,255,255,0.2);
+  padding: 25px;
+  border-radius: 20px;
+  max-width: 360px;
+  text-align: center;
+  z-index: 2;
+}
 
-    h1 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
+h1 { font-size: 30px; margin-bottom: 10px; }
+p { font-size: 16px; }
+h2 { font-size: 22px; margin: 15px 0; }
 
-    p {
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
 
-    h2 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
+button {
+  border: none;
+  padding: 12px 22px;
+  font-size: 18px;
+  border-radius: 30px;
+  cursor: pointer;
+}
 
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
+#yesBtn { background: #ff4d6d; color: white; }
+#noBtn {
+  background: white;
+  color: #ff4d6d;
+  position: relative;
+}
 
-    button {
-      border: none;
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 30px;
-      cursor: pointer;
-    }
+.hidden { display: none; }
 
-    #yesBtn {
-      background: #ff4d6d;
-      color: white;
-    }
+/* Gallery */
+.gallery {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  margin-top: 15px;
+}
 
-    #noBtn {
-      background: #fff;
-      color: #ff4d6d;
-      position: relative;
-    }
+/* Each photo card */
+.photo {
+  width: 120px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 1s forwards;
+}
 
-    #musicBtn {
-      background: #ffd6e0;
-      color: #ff4d6d;
-      font-size: 16px;
-    }
+.photo img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 
-    .hidden {
-      display: none;
-      margin-top: 20px;
-      font-size: 18px;
-    }
+.caption {
+  font-size: 13px;
+  margin-top: 5px;
+}
 
-    /* Floating hearts */
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.8;
-    }
+/* Fade-in animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-110vh) scale(1.5);
-        opacity: 0;
-      }
-    }
-  </style>
+/* Hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Background Music -->
-  <audio id="bgm" loop>
-    <source src="song.mp3" type="audio/mpeg">
-  </audio>
+<audio id="bgm" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
 
-  <div class="card">
-    <h1>Ayushi 💖</h1>
+<div class="card">
+  <h1>Ayushi 💖</h1>
 
-    <p>
-      Somehow, you make everything feel happier and easier.  
-      I smile more because of you… and I really love that.
-    </p>
+  <p>
+    You make my days brighter, my smiles easier,  
+    and my heart really happy.
+  </p>
 
-    <h2>Will you be my Valentine? 🌸</h2>
+  <h2>Will you be my Valentine? 🌸</h2>
 
-    <div class="buttons">
-      <button id="musicBtn" onclick="playMusic()">Play Music 🎵</button>
-
-      <button id="yesBtn" onclick="sayYes()">Yes 💕</button>
-      <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
-    </div>
-
-    <div id="love" class="hidden">
-      I knew it 🥹💖<br/>
-      Happy Propose Day, Ayushi 🌸<br/>
-      You make my heart really happy 💕
-    </div>
+  <div class="buttons">
+    <button id="yesBtn" onclick="sayYes()">Yes 💕</button>
+    <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
   </div>
 
-  <script>
-    function playMusic() {
-      const music = document.getElementById("bgm");
-      music.volume = 0.8;
-      music.play();
+  <!-- Appears AFTER Yes -->
+  <div id="afterYes" class="hidden">
+    <p style="margin-top:15px;">
+      I knew it 🥹💖 Happy Propose Day 🌸
+    </p>
+
+    <div class="gallery" id="gallery">
+      <div class="photo">
+        <img src="pic1.jpg">
+        <div class="caption">My favorite smile 💕</div>
+      </div>
+
+      <div class="photo">
+        <img src="pic2.jpg">
+        <div class="caption">This moment = happiness 🌸</div>
+      </div>
+
+      <div class="photo">
+        <img src="pic3.jpg">
+        <div class="caption">Us, always 💖</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function sayYes() {
+  document.getElementById("afterYes").style.display = "block";
+
+  // play music
+  const music = document.getElementById("bgm");
+  music.volume = 0.8;
+  music.play();
+
+  // stagger fade-in
+  const photos = document.querySelectorAll(".photo");
+  photos.forEach((photo, i) => {
+    photo.style.animationDelay = `${i * 0.5}s`;
+  });
+
+  // start auto swipe
+  autoScroll();
+}
+
+function moveNo() {
+  const noBtn = document.getElementById("noBtn");
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+// Auto swipe gallery
+function autoScroll() {
+  const gallery = document.getElementById("gallery");
+  let scrollAmount = 0;
+
+  setInterval(() => {
+    scrollAmount += 130;
+    if (scrollAmount >= gallery.scrollWidth - gallery.clientWidth) {
+      scrollAmount = 0;
     }
+    gallery.scrollTo({ left: scrollAmount, behavior: "smooth" });
+  }, 2200);
+}
 
-    function sayYes() {
-      document.getElementById("love").style.display = "block";
-    }
-
-    function moveNo() {
-      const noBtn = document.getElementById("noBtn");
-      const x = Math.random() * 200 - 100;
-      const y = Math.random() * 200 - 100;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
-
-    // Floating hearts
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 6000);
-    }, 400);
-  </script>
+// Floating hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+</script>
 
 </body>
 </html>
